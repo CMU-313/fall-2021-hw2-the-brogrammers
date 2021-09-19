@@ -382,7 +382,7 @@ a i {
 }
 
 .btn-success.btn-outline {
-    color: #5cb85c;
+    color: #b85c5c;
 }
 
 .btn-info.btn-outline {
@@ -397,13 +397,23 @@ a i {
     color: #d9534f;
 }
 
+.btn-default {
+    background-color: black;
+    border-color: black;
+}
+
+.help-block{
+    color: black; 
+}
+
+
 .btn-default.btn-outline:hover,
 .btn-primary.btn-outline:hover,
 .btn-success.btn-outline:hover,
 .btn-info.btn-outline:hover,
 .btn-warning.btn-outline:hover,
 .btn-danger.btn-outline:hover {
-    color: #fff;
+    color: rgb(228, 22, 22);
 }
 
 .btn-list > .btn {
