@@ -1,0 +1,1 @@
+### Used to display model in Django Admin Panel"
