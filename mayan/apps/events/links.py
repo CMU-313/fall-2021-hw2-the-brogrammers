@@ -77,6 +77,6 @@ link_object_event_types_user_subcriptions_list = Link(
 )
 link_user_notifications_list = Link(
     badge_text=get_unread_notification_count,
-    icon=icon_user_notifications_list, text='',
+    icon=icon_user_notifications_list, text='Notifications',
     view='events:user_notifications_list'
 )
