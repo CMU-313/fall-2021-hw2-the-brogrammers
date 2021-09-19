@@ -83,13 +83,13 @@
                         {% if submit_label %}{{ submit_label }}{% else %}{% if form.instance %}{% trans 'Save' %}{% else %}{% trans 'Submit' %}{% endif %}{% endif %}
                     </button>
                     {% if previous %}
-                          &nbsp;<a class="btn btn-default" onclick='history.back();'>
-                            <i class="fa fa-times"></i> {% if cancel_label %}{{ cancel_label }}{% else %}{% trans 'Cancel' %}{% endif %}
-                          </a>
+                          &nbsp;<a class="btn btn-info" onclick='history.back();'>
+                            <i class="fa fa-times"></i> {% if cancel_label %}{{ cancel_label }}{
+                     % else %}{% trans 'Cancel' %}{% endif %}     </a>
                     {% endif %}
 
                     {% for button in extra_buttons %}
-                        <button class="btn btn-default" name="{% if form.prefix %}{{ form.prefix }}-{{ button.name }}{% else %}{{ button.name }}{% endif %}" type="submit">
+                        <button class="btn btn-info" name="{% if form.prefix %}{{ form.prefix }}-{{ button.name }}{% else %}{{ button.name }}{% endif %}" type="submit">
                             {% if button.icon %}
                                 {{ button.icon.render }}
                             {% endif %}
