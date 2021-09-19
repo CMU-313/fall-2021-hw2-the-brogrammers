@@ -33,6 +33,7 @@
                         {% endfor %}
                     </div>
                 {% else %}
+                    {{ field.label_tag }}
                     {% render_field field class+="form-control" %}
                 {% endif %}
             {% if field.errors %}</div>{% endif %}
