@@ -35,7 +35,7 @@ class Candidate(models.Model):
   )
 
 
-class Form(models.Model):
+class ReviewForm(models.Model):
   #candidate object
   # foreign key implementation
 
