@@ -76,7 +76,6 @@ INSTALLED_APPS = (
     # available as soon as possible.
     'mayan.apps.logging',
     # Task manager goes to the top to ensure all queues are created before any
-    # other app tries to use them.
     'mayan.apps.task_manager',
     'mayan.apps.acls',
     'mayan.apps.authentication',
@@ -129,6 +128,9 @@ INSTALLED_APPS = (
     'mayan.apps.sources',
     'mayan.apps.tags',
     'mayan.apps.web_links',
+    # other app tries to use them.
+    # add OUR apps
+    'mayan.apps.reviews',
     # Placed after rest_api to allow template overriding
     'drf_yasg'
 )
