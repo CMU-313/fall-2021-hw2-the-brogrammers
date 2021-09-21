@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models.deletion import CASCADE
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
@@ -29,17 +30,18 @@ class Candidate(models.Model):
     verbose_name=_('University')
   )
 
-  formIDs = models.JSONField(
-    help_text=_('List of the form IDs.'),
-    verbose_name=_('FormIDs')
-  )
+# we don't need to explicitely implement the link from candidate to review forms
+#   formIDs = models.JSONField(
+#     help_text=_('List of the form IDs.'),
+#     verbose_name=_('FormIDs')
+#   )
 
 
 class ReviewForm(models.Model):
   #candidate object
   # foreign key implementation
 
-  name = models.CharField(
+  reviewerName = models.CharField(
     max_length=255, help_text=_('Name of the reviewer.'),
     verbose_name=_('Name')
   )
@@ -68,3 +70,9 @@ class ReviewForm(models.Model):
     help_text=_('Essay rating of candidate.'),
     verbose_name=_('Essay')
   )
+
+  candidate = models.ForeignKey(
+      Candidate, on_delete=CASCADE,
+      help_text=_('Target candidate.'),
+      verbose_name=_('Candidate')
+    )
