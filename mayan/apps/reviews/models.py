@@ -76,3 +76,10 @@ class ReviewForm(models.Model):
       help_text=_('Target candidate.'),
       verbose_name=_('Candidate')
     )
+
+"""
+    to retrieve forms from candidate c: c.reviewform_set.all()      <- returns a queryset of all forms linked with the candidate
+    to add form f to candidate c: f.candidate = c                   <- this also adds form f to candidate c
+
+    See https://docs.djangoproject.com/en/3.2/topics/db/examples/many_to_one/ for more detail
+"""
