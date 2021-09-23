@@ -18,7 +18,7 @@ Value: Response
 
 class Candidate(models.Model):
   # We assume that this information is somehow imported correctly
-  gpa = models.DecimalField(...,
+  gpa = models.DecimalField(
     max_digits=3, decimal_places=2, help_text=_('GPA of the applicant'),
   )
   major = models.CharField(
