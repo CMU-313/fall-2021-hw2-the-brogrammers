@@ -48,6 +48,9 @@ class Candidate(models.Model):
     verbose_name=_('University')
   )
 
+  def __str__(self):
+        return '{} {}'.format(self.firstName, self.lastName)
+
 # we don't need to explicitely implement the link from candidate to review forms
 #   formIDs = models.JSONField(
 #     help_text=_('List of the form IDs.'),
