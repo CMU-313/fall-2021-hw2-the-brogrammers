@@ -11,7 +11,7 @@ from mayan.apps.common.menus import (
     menu_secondary
 )
 from .links import (
-    link_review_list, link_review_create
+    link_review_list, link_review_create, link_candidate_create
 )
 from .menus import menu_reviews
 
@@ -29,7 +29,7 @@ class ReviewsApp(MayanAppConfig):
         # attach links to the menu component
         menu_reviews.bind_links(
             links=(
-                link_review_list, link_review_create
+                link_review_list, link_review_create, link_candidate_create
             )
         )
         # add item to the menu
