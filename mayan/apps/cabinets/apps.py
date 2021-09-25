@@ -174,6 +174,7 @@ class CabinetsApp(MayanAppConfig):
             links=(link_document_cabinet_list,), sources=(Document,)
         )
 
+        # adds the dropdown component to "cabinets"
         menu_cabinets.bind_links(
             links=(
                 link_cabinet_list, link_cabinet_create
