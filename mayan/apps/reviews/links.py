@@ -8,11 +8,11 @@ from mayan.apps.navigation.classes import Link
 from mayan.apps.navigation.utils import get_cascade_condition
 
 from .icons import (
-    icon_review_list, icon_review_create, icon_review_edit, icon_review_delete
+    icon_review_list, icon_review_create, icon_review_edit, icon_review_delete, icon_candidate_create
 )
 
 from .permissions import (
-    permission_review_create, permission_review_view
+    permission_review_create, permission_review_view, permission_candidate_create
 )
 
 # Review Links
@@ -24,4 +24,9 @@ link_review_create = Link(
 link_review_list = Link(
     icon=icon_review_list, permissions=(permission_review_view,),
     text=_('All'), view='reviews:review_list'
+)
+
+link_candidate_create = Link(
+    icon=icon_candidate_create, permissions=(permission_candidate_create,),
+    text=('Create Candidate'), view='reviews:candidate_create'
 )

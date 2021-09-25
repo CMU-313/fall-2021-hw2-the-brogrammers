@@ -15,11 +15,25 @@ from mayan.apps.views.generics import (
 from mayan.apps.views.mixins import ExternalObjectViewMixin
 
 from .permissions import (
-    permission_review_create, permission_review_view
+    permission_review_create, permission_review_view, permission_candidate_create
 )
 from .models import ReviewForm, Candidate
 
 logger = logging.getLogger(name=__name__)
+
+
+class CandidateCreateView(SingleObjectCreateView):
+    fields = ('firstName', 'lastName', 'email', 'phone_number', 'gpa', 'major', 'university')
+    model = Candidate
+    post_action_redirect = reverse_lazy(viewname='reviews:review_list')
+    view_permission = permission_candidate_create
+    def get_extra_context(self):
+        return {
+            'title':_('Create Candidate'),
+        }
+    
+    def get_instance_extra_data(self):
+        return {'_event_actor' : self.request.user }
 
 class ReviewCreateView(SingleObjectCreateView):
     fields = ('candidate', 'reviewerName', 'leadership', 'extracurriculars', 'recLetters', 'interview', 'essay')
