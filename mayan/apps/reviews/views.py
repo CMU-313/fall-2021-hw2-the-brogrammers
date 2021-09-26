@@ -18,10 +18,6 @@ from .permissions import (
     permission_review_create, permission_review_view, permission_candidate_create
 )
 from .models import ReviewForm, Candidate
-from .icons import icon_review_menu
-from .links import (
-    link_review_create 
-)
 
 logger = logging.getLogger(name=__name__)
 
@@ -58,17 +54,9 @@ class ReviewListView(SingleObjectListView):
 
     def get_extra_context(self):
         return {
-            # could add hide things?
-            'title' : _('Completed Reviews'),
-            'no_results_icon' : icon_review_menu,
-            'no_results_main_link' : link_review_create.resolve(
-                context=RequestContext(request=self.request)
-            ),
-            'no_results_text' : _(
-                'Review forms are used to score a candidate across multiple domains.'
-            ),
-            'no_results_title': _('No reviews completed yet'),
+            'title' : _('Finished Reviews'),
+
         }
 
     def get_source_queryset(self):
-        return ReviewForm.get_reviews()
+        return ReviewForm.objects()

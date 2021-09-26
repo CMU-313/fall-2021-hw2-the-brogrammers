@@ -20,13 +20,12 @@ class ReviewsApp(MayanAppConfig):
     app_namespace = 'reviews'
     app_url = 'reviews'
     has_rest_api = False
-    has_static_media = False
     has_tests = False
     name = 'mayan.apps.reviews'
     verbose_name = _('Reviews')
+
     def ready(self):
         super().ready()
-
         # attach links to the menu component
         menu_reviews.bind_links(
             links=(

@@ -16,6 +16,7 @@ Value: Response
 
 """
 
+
 class Candidate(models.Model):
   # We assume that this information is somehow imported correctly
   firstName = models.CharField(
@@ -46,8 +47,6 @@ class Candidate(models.Model):
     max_length=255, help_text=_('University of the applicant.'),
     verbose_name=_('University')
   )
-  # potentially add zero-many relationship
-
 
   def __str__(self):
         return '{} {}'.format(self.firstName, self.lastName)
@@ -97,11 +96,7 @@ class ReviewForm(models.Model):
       Candidate, on_delete=CASCADE,
       help_text=_('Target candidate.'),
       verbose_name=_('Candidate')
-  )
-
-  @staticmethod
-  def get_reviews():
-    return ReviewForm.objects.all()
+    )
 
 """
     to retrieve forms from candidate c: c.reviewform_set.all()      <- returns a queryset of all forms linked with the candidate

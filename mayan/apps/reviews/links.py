@@ -22,7 +22,6 @@ link_review_create = Link(
 )
 
 link_review_list = Link(
-    # CHANGE TO CASCADE SO ONLY IF 1+ it will actually show (look at cabinet)
     icon=icon_review_list, permissions=(permission_review_view,),
     text=_('All'), view='reviews:review_list'
 )

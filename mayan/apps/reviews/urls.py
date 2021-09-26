@@ -3,6 +3,7 @@ from django.conf.urls import url
 from .. import cabinets
 from . import views
 
+# Review app routing
 urlpatterns = [
     url(
         regex=r'^create/$', name='review_create',
