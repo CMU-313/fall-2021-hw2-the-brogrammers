@@ -7,10 +7,12 @@ from django.db.models.deletion import CASCADE
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+from bleach import Cleaner
+from bleach.linkifier import LinkifyFilter
 
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
-
+from mayan.apps.templating.classes import Template
 from mayan.apps.acls.models import AccessControlList
 from mayan.apps.databases.model_mixins import ExtraDataModelMixin
 from mayan.apps.documents.models.document_models import Document
@@ -146,7 +148,49 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
   )
 
   def __str__(self):
-        return 'Review for candidate {}'.format(str(self.candidate))
+        return 'Review for candidate, {}'.format(str(self.candidate))
+
+  def get_absolute_url(self):
+        return reverse(
+            viewname='reviews:reviewform_detail', kwargs={'reviewform_id': self.pk}
+        )
+
+  
+
+  def get_rendered_body(self, field):
+      cleaner = Cleaner(
+          filters=[LinkifyFilter]
+      )
+      template = Template(template_string=cleaner.clean(text=self.reviewerName))
+      if(field == "reviwerName"):
+        template = Template(
+            template_string=cleaner.clean(text=self.reviewerName)
+        )
+      elif(field == "candidate"):
+        template = Template(
+            template_string=cleaner.clean(text=str(self.candidate))
+        )
+      elif(field == "leadership"):
+        template = Template(
+            template_string=cleaner.clean(text=self.leadership)
+        )
+      elif(field == "extracurriculars"):
+        template = Template(
+            template_string=cleaner.clean(text=self.extracurriculars)
+        )
+      elif(field == "recLetters"):
+        template = Template(
+            template_string=cleaner.clean(text=self.recLetters)
+        )
+      elif(field == "interview"):
+        template = Template(
+            template_string=cleaner.clean(text=self.interview)
+        )
+      elif(field == "essay"):
+        template = Template(
+            template_string=cleaner.clean(text=self.essay)
+        )
+      return template.render()
 
   class MPTTMeta:
     order_insertion_by = ('candidate',)

@@ -16,5 +16,9 @@ urlpatterns = [
     url(
         regex=r'^candidate/create/$', name='candidate_create',
         view=views.CandidateCreateView.as_view()
+    ),
+    url(
+        regex=r'^reviews/(?P<reviewform_id>\d+)/details/$',
+        name='reviewform_detail', view=views.ReviewDetailView.as_view()
     )
 ]
