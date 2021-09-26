@@ -145,6 +145,9 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
     verbose_name=_('Documents')
   )
 
+  def __str__(self):
+        return 'Review for candidate {}'.format(str(self.candidate))
+
   class MPTTMeta:
     order_insertion_by = ('candidate',)
 
