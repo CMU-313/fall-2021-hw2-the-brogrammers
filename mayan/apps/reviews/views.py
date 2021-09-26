@@ -10,10 +10,11 @@ from mayan.apps.documents.models import Document
 from mayan.apps.documents.views.document_views import DocumentListView
 from mayan.apps.views.generics import (
     MultipleObjectFormActionView, SingleObjectCreateView,
-    SingleObjectDeleteView, SingleObjectEditView, SingleObjectListView
+    SingleObjectDeleteView, SingleObjectEditView, SingleObjectListView,
+    SingleObjectDetailView
 )
 from mayan.apps.views.mixins import ExternalObjectViewMixin
-
+from .forms import ReviewDetailForm
 from .permissions import (
     permission_review_create, permission_review_view, permission_candidate_create
 )
@@ -61,6 +62,28 @@ class ReviewListView(SingleObjectListView):
                 'on a specific candidate.'
             ),
             'no_results_title': _('No reviews available'),
+        }
+
+    def get_source_queryset(self):
+        return ReviewForm.objects.root_nodes()
+
+class ReviewDetailView(SingleObjectDetailView):
+    form_class = ReviewDetailForm
+    object_permission = permission_review_view
+    pk_url_kwarg = 'reviewform_id' 
+
+    def get_extra_context(self):
+        return {
+            'form_hide_help_text': True,
+            'hide_labels': False,
+            'object': self.object,
+            'title': _('%s') % self.object,
+        }
+
+    def get_initial(self):
+        return {
+            'Reviewer Name': self.object.get_rendered_body("reviewerName"),
+            'Candidate Name': self.object.get_rendered_body("candidate")
         }
 
     def get_source_queryset(self):
