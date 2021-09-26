@@ -8,6 +8,21 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 
+from mptt.fields import TreeForeignKey
+from mptt.models import MPTTModel
+
+from mayan.apps.acls.models import AccessControlList
+from mayan.apps.databases.model_mixins import ExtraDataModelMixin
+from mayan.apps.documents.models.document_models import Document
+from mayan.apps.documents.permissions import permission_document_view
+from mayan.apps.events.classes import EventManagerMethodAfter, EventManagerSave
+from mayan.apps.events.decorators import method_event
+
+from .events import (
+    event_review_created, event_review_edited, event_review_document_added,
+    event_review_document_removed
+)
+
 """
 Sample Review
 
@@ -59,7 +74,21 @@ class Candidate(models.Model):
 
 # This represents the review form type that the reviewer fills out
 # when they evaluate a candidate
-class ReviewForm(models.Model):
+
+
+class ReviewForm(ExtraDataModelMixin, MPTTModel):
+
+  parent = TreeForeignKey(
+    blank=True, db_index=True, null=True, on_delete=models.CASCADE,
+    related_name='children', to='self'
+  )
+
+  candidate = models.ForeignKey(
+    Candidate, on_delete=CASCADE,
+    help_text=_('Target candidate.'),
+    verbose_name=_('Candidate')
+  )
+
   reviewerName = models.CharField(
     max_length=255, help_text=_('Name of the reviewer.'),
     verbose_name=_('Name')
@@ -99,7 +128,6 @@ class ReviewForm(models.Model):
       MaxValueValidator(10),
       MinValueValidator(0),
     ],
-    blank=True
   )
 
   essay = models.PositiveSmallIntegerField(
@@ -109,14 +137,23 @@ class ReviewForm(models.Model):
       MaxValueValidator(10),
       MinValueValidator(0),
     ],
-    blank=True
   )
 
-  candidate = models.ForeignKey(
-      Candidate, on_delete=CASCADE,
-      help_text=_('Target candidate.'),
-      verbose_name=_('Candidate')
-    )
+
+  documents = models.ManyToManyField(
+    blank=True, related_name='reviews', to=Document,
+    verbose_name=_('Documents')
+  )
+
+  class MPTTMeta:
+    order_insertion_by = ('candidate',)
+
+  class Meta:
+      # unique_together doesn't work if there is a FK
+      # https://code.djangoproject.com/ticket/1751
+      unique_together = ('parent', 'candidate')
+      verbose_name = _('Review')
+      verbose_name_plural = _('Reviews')
 
 """
     to retrieve forms from candidate c: c.reviewform_set.all()      <- returns a queryset of all forms linked with the candidate

@@ -55,7 +55,12 @@ class ReviewListView(SingleObjectListView):
     def get_extra_context(self):
         return {
             'title' : _('Finished Reviews'),
-
+            'no_results_text': _(
+                'Reviews are a tiered method to aggregate '
+                'information. Each review contains information '
+                'on a specific candidate.'
+            ),
+            'no_results_title': _('No reviews available'),
         }
 
     def get_source_queryset(self):
