@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -57,39 +57,59 @@ class Candidate(models.Model):
 #     verbose_name=_('FormIDs')
 #   )
 
-
+# This represents the review form type that the reviewer fills out
+# when they evaluate a candidate
 class ReviewForm(models.Model):
-  #candidate object
-  # foreign key implementation
-
   reviewerName = models.CharField(
     max_length=255, help_text=_('Name of the reviewer.'),
     verbose_name=_('Name')
   )
 
-  leadership = models.PositiveSmallIntegerField(
-    help_text=_('Leadership rating of candidate.'),
-    verbose_name=_('Leadership')
+  leadership = models.PositiveIntegerField(
+    help_text=_('Leadership rating of candidate (0 - 10)'),
+    verbose_name=_('Leadership'),
+    validators = [
+      MaxValueValidator(10),
+      MinValueValidator(0),
+    ]
   )
 
   extracurriculars = models.PositiveSmallIntegerField(
-    help_text=_('Extracurriculars rating of candidate.'),
-    verbose_name=_('Extracurriculars')
+    help_text=_('Extracurriculars rating of candidate (0 - 10)'),
+    verbose_name=_('Extracurriculars'),
+    validators = [
+      MaxValueValidator(10),
+      MinValueValidator(0),
+    ]    
   )
 
   recLetters = models.PositiveSmallIntegerField(
-    help_text=_('RecLetters rating of candidate.'),
-    verbose_name=_('RecLetters')
+    help_text=_('RecLetters rating of candidate (0 - 10)'),
+    verbose_name=_('RecLetters'),
+    validators = [
+      MaxValueValidator(10),
+      MinValueValidator(0),
+    ]
   )
 
   interview = models.PositiveSmallIntegerField(
-    help_text=_('Interview rating of candidate.'),
-    verbose_name=_('Interview')
+    help_text=_('Interview rating of candidate (0 - 10)'),
+    verbose_name=_('Interview'),
+    validators = [
+      MaxValueValidator(10),
+      MinValueValidator(0),
+    ],
+    blank=True
   )
 
   essay = models.PositiveSmallIntegerField(
-    help_text=_('Essay rating of candidate.'),
-    verbose_name=_('Essay')
+    help_text=_('Essay rating of candidate (0 - 10)'),
+    verbose_name=_('Essay'),
+    validators = [
+      MaxValueValidator(10),
+      MinValueValidator(0),
+    ],
+    blank=True
   )
 
   candidate = models.ForeignKey(

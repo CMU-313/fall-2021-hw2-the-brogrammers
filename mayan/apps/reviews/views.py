@@ -59,4 +59,4 @@ class ReviewListView(SingleObjectListView):
         }
 
     def get_source_queryset(self):
-        return ReviewForm.objects()
+        return ReviewForm.objects.root_nodes()
