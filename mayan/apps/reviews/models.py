@@ -66,15 +66,14 @@ class Candidate(models.Model):
     max_length=255, help_text=_('University of the applicant.'),
     verbose_name=_('University')
   )
+  
+  # set the default ordering when Candidate objects are queried
+  class Meta:
+    ordering = ['firstName', 'lastName']
 
   def __str__(self):
         return '{} {}'.format(self.firstName, self.lastName)
 
-# we don't need to explicitely implement the link from candidate to review forms
-#   formIDs = models.JSONField(
-#     help_text=_('List of the form IDs.'),
-#     verbose_name=_('FormIDs')
-#   )
 
 # This represents the review form type that the reviewer fills out
 # when they evaluate a candidate
@@ -95,7 +94,7 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
 
   reviewerName = models.CharField(
     max_length=255, help_text=_('Name of the reviewer.'),
-    verbose_name=_('Name')
+    verbose_name=_('Reviewer Name')
   )
 
   leadership = models.PositiveIntegerField(
@@ -118,7 +117,7 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
 
   recLetters = models.PositiveSmallIntegerField(
     help_text=_('RecLetters rating of candidate (0 - 10)'),
-    verbose_name=_('RecLetters'),
+    verbose_name=_('Rec Letters'),
     validators = [
       MaxValueValidator(10),
       MinValueValidator(0),
@@ -152,8 +151,6 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
         return reverse(
             viewname='reviews:reviewform_detail', kwargs={'reviewform_id': self.pk}
         )
-
-  
 
   def get_rendered_body(self, field):
       cleaner = Cleaner(
@@ -200,9 +197,3 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
       verbose_name = _('Review')
       verbose_name_plural = _('Reviews')
 
-"""
-    to retrieve forms from candidate c: c.reviewform_set.all()      <- returns a queryset of all forms linked with the candidate
-    to add form f to candidate c: f.candidate = c                   <- this also adds form f to candidate c
-
-    See https://docs.djangoproject.com/en/3.2/topics/db/examples/many_to_one/ for more detail
-"""
