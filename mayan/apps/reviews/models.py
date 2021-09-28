@@ -25,6 +25,8 @@ from .events import (
     event_review_document_removed
 )
 
+
+from datetime import date
 """
 Sample Review
 
@@ -140,10 +142,7 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
     ],
   )
 
-  documents = models.ManyToManyField(
-    blank=True, related_name='reviews', to=Document,
-    verbose_name=_('Documents')
-  )
+  created_at = models.DateField(default=date.today)
 
   def __str__(self):
         return 'Review for candidate, {}'.format(str(self.candidate))
