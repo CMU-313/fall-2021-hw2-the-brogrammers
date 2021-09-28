@@ -105,6 +105,7 @@ All additional tests can be found in `mayan/apps/reviews/tests`. These tests run
   are required.
 <p>
 <img width="1000" heigth="1000" src="images/create_candidate.png">
+<p align="center">Figure 1: Candidate Creation Page</p>
 
 <h3 align="left">Create Review</h3>
 <p>
@@ -112,10 +113,15 @@ All additional tests can be found in `mayan/apps/reviews/tests`. These tests run
   that is used to rate the candidate. Each criteria ranges from 0 - 10, with 0 being the lowest and 10 being the highest. 
 <p>
 <img width="1000" heigth="1000" src="images/review_candidate.png">
-
+<p align="center">Figure 2: Individual Candidate Review Creation Page</p>
 <h3 align="left">All</h3>
 <p>
   Once a candidate has been created, they will be added to the <b>All</b> page where all reviews for all candidates are stored. Users can see the results for
   each candidate by clicking on that specific review to find the candidate, reviewer, and the scores for each criteria.
 <p>
+<img width="1000" heigth="1000" src="images/show_all_candidate_reviews.png">
+<p align="center">Figure 3: View of Candidates with their Reviewer</p>
+
 <img width="1000" heigth="1000" src="images/show_candidate_review.png">
+<p align="center">Figure 4: View of Individual Candidate</p>
+
