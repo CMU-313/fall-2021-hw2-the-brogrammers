@@ -19,6 +19,12 @@ from .permissions import (
     permission_review_create, permission_review_view, permission_candidate_create
 )
 from .models import ReviewForm, Candidate
+from .icons import (
+    icon_review_menu
+)
+from .links import (
+    link_review_create
+)
 
 logger = logging.getLogger(name=__name__)
 
@@ -26,7 +32,7 @@ logger = logging.getLogger(name=__name__)
 class CandidateCreateView(SingleObjectCreateView):
     fields = ('firstName', 'lastName', 'email', 'phone_number', 'gpa', 'major', 'university')
     model = Candidate
-    post_action_redirect = reverse_lazy(viewname='reviews:review_list')
+    post_action_redirect = reverse_lazy(viewname='reviews:review_create')
     view_permission = permission_candidate_create
     def get_extra_context(self):
         return {
@@ -55,7 +61,13 @@ class ReviewListView(SingleObjectListView):
 
     def get_extra_context(self):
         return {
+            'hide_link': True,
+            'hide_object': True,
             'title' : _('Finished Reviews'),
+            'no_results_icon': icon_review_menu,
+            'no_results_main_link' : link_review_create.resolve(
+                context=RequestContext(request=self.request)
+            ),
             'no_results_text': _(
                 'Reviews are a tiered method to aggregate '
                 'information. Each review contains information '
@@ -88,3 +100,31 @@ class ReviewDetailView(SingleObjectDetailView):
 
     def get_source_queryset(self):
         return ReviewForm.objects.root_nodes()
+
+class ReviewEditView(SingleObjectEditView):
+    fields = ('candidate', 'reviewerName', 'leadership', 'extracurriculars', 'recLetters', 'interview', 'essay')
+    model = ReviewForm
+    # could add edit permission right here!
+    post_action_redirect = reverse_lazy(viewname='reviews:review_list')
+    pk_url_kwarg = 'reviewform_id'
+
+    def get_extra_context(self):
+        return {
+            'object': self.object,
+            'title': _('Edit Review: %s') % self.object,
+        }
+
+    def get_instance_extra_data(self):
+        return {'_event_actor': self.request.user }
+
+class ReviewDeleteView(SingleObjectDeleteView):
+    model = ReviewForm
+    # could do permission_delete!
+    post_action_redirect = reverse_lazy(viewname='reviews:review_list')
+    pk_url_kwarg = 'reviewform_id'
+
+    def get_extra_context(self):
+        return {
+            'object' : self.object,
+            'title': _('Delete the Review: %s?') % self.object,
+        }
