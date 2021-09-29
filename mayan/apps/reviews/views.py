@@ -1,4 +1,3 @@
-### Application Views File ###
 import logging
 
 from django.template import RequestContext

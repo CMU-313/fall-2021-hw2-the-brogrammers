@@ -30,12 +30,8 @@ link_review_list = Link(
     text=_('All'), view='reviews:review_list'
 )
 
-link_candidate_create = Link(
-    icon=icon_candidate_create, permissions=(permission_candidate_create,),
-    text=_('Create Candidate'), view='reviews:candidate_create'
-)
 
-# could potentially add permission to 2 below vv
+# could potentially add permission to 3 below 
 link_review_delete = Link(
     args='object.pk', icon=icon_review_delete, 
     tags='dangerous', text=('Delete'), 
@@ -50,4 +46,10 @@ link_review_view = Link(
 link_review_edit = Link(
     args='object.pk', icon=icon_review_edit,
     text=_('Edit'), view='reviews:review_edit'
+)
+
+# Candidate Links
+link_candidate_create = Link(
+    icon=icon_candidate_create, permissions=(permission_candidate_create,),
+    text=_('Create Candidate'), view='reviews:candidate_create'
 )

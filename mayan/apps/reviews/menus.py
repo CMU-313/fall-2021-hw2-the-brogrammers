@@ -6,7 +6,7 @@ from mayan.apps.navigation.utils import get_cascade_condition
 from .icons import icon_review_menu
 from .permissions import permission_review_view, permission_review_create
 
-# Review menu component
+# "Review" app menu component
 menu_reviews = Menu(
     condition=get_cascade_condition(
         app_label='reviews', model_name='ReviewForm',

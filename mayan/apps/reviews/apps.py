@@ -1,4 +1,3 @@
-### Application Configurations File ###
 from django.apps import apps
 from django.utils.translation import ugettext_lazy as _
 
@@ -17,37 +16,41 @@ from .links import (
 )
 from .menus import menu_reviews
 
+# config info for app
 class ReviewsApp(MayanAppConfig):
-    # config info for app
     app_namespace = 'reviews'
     app_url = 'reviews'
     has_rest_api = False
     has_tests = False
     name = 'mayan.apps.reviews'
     verbose_name = _('Reviews')
-
     def ready(self):
         super().ready()
         ReviewForm = self.get_model(model_name='ReviewForm')
-        # attatch links to menu component & add to main menu
+        # attach links to menu component & add to main menu
         menu_reviews.bind_links(
             links=(
                 link_review_list, link_review_create, link_candidate_create
             )
         )
         menu_main.bind_links(links=(menu_reviews,), position=96)
-        # attach links to an instance of it
+        # attach CRUD links to review object
         menu_object.bind_links(
             links=(
                 link_review_delete, link_review_view, link_review_edit
             ), sources=(ReviewForm,)
         )
+        # attach information to review object 
         SourceColumn(
             attribute='candidate', is_identifier=False, is_sortable=True,
             source=ReviewForm
         )
         SourceColumn(
             attribute='reviewerName', is_identifier=False, is_sortable=True,
+            source=ReviewForm
+        )
+        SourceColumn(
+            attribute='created_at', is_identifier=False, is_sortable=True,
             source=ReviewForm
         )
         

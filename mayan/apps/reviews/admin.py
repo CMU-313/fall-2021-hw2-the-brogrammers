@@ -3,7 +3,6 @@ from django.contrib import admin
 
 from .models import ReviewForm, Candidate
 
-
 @admin.register(ReviewForm)
 class ReviewFormAdmin(admin.ModelAdmin):
     list_display = ('reviewerName', 'candidate', 'leadership', 'extracurriculars','recLetters','interview', 'essay')
