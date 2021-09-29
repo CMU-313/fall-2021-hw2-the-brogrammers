@@ -92,12 +92,7 @@ class ReviewDetailView(SingleObjectDetailView):
             'title': _('%s') % self.object,
         }
 
-    def get_initial(self):
-        return {
-            'Reviewer Name': self.object.get_rendered_body("reviewerName"),
-            'Candidate Name': self.object.get_rendered_body("candidate")
-        }
-
+    
     def get_source_queryset(self):
         return ReviewForm.objects.root_nodes()
 

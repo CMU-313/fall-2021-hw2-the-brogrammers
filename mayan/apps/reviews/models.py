@@ -185,6 +185,10 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
         template = Template(
             template_string=cleaner.clean(text=self.essay)
         )
+      elif(field == "createdAt"):
+        template = Template(
+            template_string=cleaner.clean(text=self.created_at)
+        )
       return template.render()
 
   class MPTTMeta:

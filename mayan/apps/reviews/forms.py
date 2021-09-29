@@ -74,6 +74,15 @@ class ReviewDetailForm(forms.Form):
         )
     )
 
+    created_at = forms.CharField(
+        label=_('Created At:'),
+        widget=TextAreaDiv(
+            attrs={
+                'class': 'views-text-wrap text_area_div',
+            }
+        )
+    )
+
     def __init__(self, *args, **kwargs):
         self.instance = kwargs.pop('instance', None)
         super().__init__(*args, **kwargs)
@@ -84,6 +93,7 @@ class ReviewDetailForm(forms.Form):
         self.fields['recLetters'].initial = self.instance.recLetters
         self.fields['interview'].initial = self.instance.interview
         self.fields['essay'].initial = self.instance.essay
+        self.fields['created_at'].initial = self.instance.created_at
 
 
 class ReviewListForm(FilteredSelectionForm):
