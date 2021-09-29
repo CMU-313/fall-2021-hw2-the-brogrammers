@@ -19,25 +19,14 @@ from mayan.apps.documents.models.document_models import Document
 from mayan.apps.documents.permissions import permission_document_view
 from mayan.apps.events.classes import EventManagerMethodAfter, EventManagerSave
 from mayan.apps.events.decorators import method_event
-
 from .events import (
     event_review_created, event_review_edited, event_review_document_added,
     event_review_document_removed
 )
-
-
 from datetime import date
-"""
-Sample Review
 
-Key: Question
-Value: Response
-
-"""
-
-
+# Candidate model represents a candidate for a future review.
 class Candidate(models.Model):
-  # We assume that this information is somehow imported correctly
   firstName = models.CharField(
     max_length=255, help_text=_('First Name of Candidate'),
     verbose_name=_('First Name'), default=''
@@ -54,7 +43,7 @@ class Candidate(models.Model):
   phone_number = models.CharField(
     validators=[phone_regex], max_length=17, 
     blank=True, help_text=_('Phone Number of Candidate'),
-  ) # validators should be a list
+  )
   gpa = models.DecimalField(
     max_digits=3, decimal_places=2, help_text=_('GPA of the applicant'),
   )
@@ -74,11 +63,7 @@ class Candidate(models.Model):
   def __str__(self):
         return '{} {}'.format(self.firstName, self.lastName)
 
-
-# This represents the review form type that the reviewer fills out
-# when they evaluate a candidate
-
-
+# ReviewForm model represents information we collect on a candidate for evals
 class ReviewForm(ExtraDataModelMixin, MPTTModel):
 
   parent = TreeForeignKey(
@@ -94,7 +79,7 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
 
   reviewerName = models.CharField(
     max_length=255, help_text=_('Name of the reviewer.'),
-    verbose_name=_('Reviewer Name')
+    verbose_name=_('Reviewer')
   )
 
   leadership = models.PositiveIntegerField(
@@ -142,7 +127,13 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
     ],
   )
 
-  created_at = models.DateField(default=date.today)
+  created_at = models.DateField(
+    default=date.today,
+    verbose_name=_('Creation Date'),
+    validators=[
+      MaxValueValidator(limit_value=date.today)
+    ],
+  )
 
   def __str__(self):
         return 'Review for candidate, {}'.format(str(self.candidate))
@@ -196,4 +187,3 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
       unique_together = ('parent', 'candidate')
       verbose_name = _('Review')
       verbose_name_plural = _('Reviews')
-
