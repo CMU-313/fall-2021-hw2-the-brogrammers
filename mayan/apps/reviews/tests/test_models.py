@@ -2,7 +2,7 @@ from mayan.apps.testing.tests.base import BaseTestCase
 
 from ..models import Candidate, ReviewForm
 
-from .mixinss import ReviewsTestMixin
+from .mixins import ReviewsTestMixin
 
 class ReviewTestCase(ReviewsTestMixin, BaseTestCase):
     def test_candidate_creation(self):
