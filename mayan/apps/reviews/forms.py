@@ -8,8 +8,7 @@ from mayan.apps.views.forms import FilteredSelectionForm
 
 logger = logging.getLogger(name=__name__)
 
-
-
+# form to show details of a review form object
 class ReviewDetailForm(forms.Form):
     reviewerName = forms.CharField(
         label=_('Reviewer Name'),
