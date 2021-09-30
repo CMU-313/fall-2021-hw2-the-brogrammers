@@ -16,3 +16,7 @@ permission_review_view = namespace.add_permission(
 permission_candidate_create = namespace.add_permission(
     label=_('Create Candidate'), name='candidate_create'
 )
+
+permission_candidate_view = namespace.add_permission(
+    label=_('View Candidates'), name='candidate_view'
+)

@@ -55,6 +55,7 @@ class Candidate(models.Model):
     max_length=255, help_text=_('University of the applicant.'),
     verbose_name=_('University')
   )
+
   
   # set the default ordering when Candidate objects are queried
   class Meta:
@@ -62,6 +63,60 @@ class Candidate(models.Model):
 
   def __str__(self):
         return '{} {}'.format(self.firstName, self.lastName)
+    
+  def get_reviews_interview_avg(self):
+    L = self.get_reviews()
+    if len(L) == 0:
+      return 'N/A'
+    res = 0
+    for r in L:
+      res += r.interview
+    return res / len(L)
+  
+  def get_reviews_leadership_avg(self):
+    L = self.get_reviews()
+    if len(L) == 0:
+      return 'N/A'
+    res = 0
+    for r in L:
+      res += r.leadership
+    return res / len(L)
+
+  def get_reviews_recletter_avg(self):
+    L = self.get_reviews()
+    if len(L) == 0:
+      return 'N/A'
+    res = 0
+    for r in L:
+      res += r.recLetters
+    return res / len(L)
+
+  def get_reviews_extra_avg(self):
+    L = self.get_reviews()
+    if len(L) == 0:
+      return 'N/A'
+    res = 0
+    for r in L:
+      res += r.recLetters
+    return res / len(L)
+
+  def get_reviews_essay_avg(self):
+    L = self.get_reviews()
+    if len(L) == 0:
+      return 'N/A'
+    res = 0
+    for r in L:
+      res += r.recLetters
+    return res / len(L)
+
+  def get_reviews_count(self):
+    return self.get_reviews().count()
+
+  def get_reviews(self):
+    reviews = ReviewForm.objects.filter(
+      candidate=self.pk
+    )
+    return reviews
 
 # ReviewForm model represents information we collect on a candidate for evals
 class ReviewForm(ExtraDataModelMixin, MPTTModel):

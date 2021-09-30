@@ -13,10 +13,6 @@ urlpatterns = [
         view=views.ReviewCreateView.as_view()
     ),
     url(
-        regex=r'^candidate/create/$', name='candidate_create',
-        view=views.CandidateCreateView.as_view()
-    ),
-    url(
         regex=r'^reviews/(?P<reviewform_id>\d+)/details/$',
         name='review_detail', view=views.ReviewDetailView.as_view()
     ),
@@ -27,5 +23,25 @@ urlpatterns = [
     url(
         regex=r'^reviews/(?P<reviewform_id>\d+)/edit/$',
         name='review_edit', view=views.ReviewEditView.as_view()
+    ),
+    url(
+        regex=r'^candidates/create/$', name='candidate_create',
+        view=views.CandidateCreateView.as_view()
+    ),
+    url(
+        regex=r'^candidates/$', name='candidate_list',
+        view=views.CandidateListView.as_view()
+    ),
+    url(
+        regex=r'^candidates/(?P<candidate_id>\d+)/edit/$',
+        name='candidate_edit', view=views.CandidateEditView.as_view()
+    ),
+    url(
+        regex=r'^candidates/(?P<candidate_id>\d+)/delete/$',
+        name='candidate_delete', view=views.CandidateDeleteView.as_view()
+    ),
+    url(
+        regex=r'^candidates/(?P<candidate_id>\d+)/reviews/$', name='candidate_review_list',
+        view=views.CandidateReviewListView.as_view()
     )
 ]
