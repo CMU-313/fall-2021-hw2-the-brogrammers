@@ -10,4 +10,9 @@ icon_review_edit = Icon(driver_name='fontawesome', symbol='pencil-alt')
 icon_review_menu = Icon(driver_name='fontawesome', symbol='paperclip')
 icon_review_view = Icon(driver_name='fontawesome', symbol='eye')
 icon_review_list = Icon(driver_name='fontawesome', symbol='copy')
+
+# Candidate Icons
 icon_candidate_create = Icon(driver_name='fontawesome', symbol='user-plus')
+icon_candidate_list = Icon(driver_name='fontawesome', symbol='users')
+icon_candidate_edit = Icon(driver_name='fontawesome', symbol='pencil-alt')
+icon_candidate_delete = Icon(driver_name='fontawesome', symbol='times')

@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from bleach import Cleaner
 from bleach.linkifier import LinkifyFilter
+from datetime import date
 
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
@@ -25,17 +26,8 @@ from .events import (
     event_review_document_removed
 )
 
-"""
-Sample Review
-
-Key: Question
-Value: Response
-
-"""
-
-
+# Candidate model represents a candidate for a future review.
 class Candidate(models.Model):
-  # We assume that this information is somehow imported correctly
   firstName = models.CharField(
     max_length=255, help_text=_('First Name of Candidate'),
     verbose_name=_('First Name'), default=''
@@ -52,7 +44,7 @@ class Candidate(models.Model):
   phone_number = models.CharField(
     validators=[phone_regex], max_length=17, 
     blank=True, help_text=_('Phone Number of Candidate'),
-  ) # validators should be a list
+  )
   gpa = models.DecimalField(
     max_digits=3, decimal_places=2, help_text=_('GPA of the applicant'),
   )
@@ -64,19 +56,71 @@ class Candidate(models.Model):
     max_length=255, help_text=_('University of the applicant.'),
     verbose_name=_('University')
   )
+
   
-  # set the default ordering when Candidate objects are queried
+  # set default ordering when Candidate objects are queried
   class Meta:
     ordering = ['firstName', 'lastName']
 
   def __str__(self):
         return '{} {}'.format(self.firstName, self.lastName)
+  
+  # methods to average a Candidate's reviews
+  def get_reviews_interview_avg(self):
+    L = self.get_reviews()
+    if len(L) == 0:
+      return 'N/A'
+    res = 0
+    for r in L:
+      res += r.interview
+    return round(res / len(L), 2)
+  
+  def get_reviews_leadership_avg(self):
+    L = self.get_reviews()
+    if len(L) == 0:
+      return 'N/A'
+    res = 0
+    for r in L:
+      res += r.leadership
+    return round(res / len(L), 2)
 
+  def get_reviews_recletter_avg(self):
+    L = self.get_reviews()
+    if len(L) == 0:
+      return 'N/A'
+    res = 0
+    for r in L:
+      res += r.recLetters
+    return round(res / len(L), 2)
 
-# This represents the review form type that the reviewer fills out
-# when they evaluate a candidate
+  def get_reviews_extra_avg(self):
+    L = self.get_reviews()
+    if len(L) == 0:
+      return 'N/A'
+    res = 0
+    for r in L:
+      res += r.extracurriculars
+    return round(res / len(L), 2)
 
+  def get_reviews_essay_avg(self):
+    L = self.get_reviews()
+    if len(L) == 0:
+      return 'N/A'
+    res = 0
+    for r in L:
+      res += r.essay
+    return round(res / len(L), 2)
 
+  def get_reviews_count(self):
+    return self.get_reviews().count()
+
+  def get_reviews(self):
+    reviews = ReviewForm.objects.filter(
+      candidate=self.pk
+    )
+    return reviews
+
+# ReviewForm model represents information we collect on a candidate for evals
 class ReviewForm(ExtraDataModelMixin, MPTTModel):
 
   parent = TreeForeignKey(
@@ -92,7 +136,7 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
 
   reviewerName = models.CharField(
     max_length=255, help_text=_('Name of the reviewer.'),
-    verbose_name=_('Reviewer Name')
+    verbose_name=_('Reviewer')
   )
 
   leadership = models.PositiveIntegerField(
@@ -140,9 +184,12 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
     ],
   )
 
-  documents = models.ManyToManyField(
-    blank=True, related_name='reviews', to=Document,
-    verbose_name=_('Documents')
+  created_at = models.DateField(
+    default=date.today,
+    verbose_name=_('Creation Date'),
+    validators=[
+      MaxValueValidator(limit_value=date.today)
+    ],
   )
 
   def __str__(self):
@@ -186,6 +233,10 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
         template = Template(
             template_string=cleaner.clean(text=self.essay)
         )
+      elif(field == "createdAt"):
+        template = Template(
+            template_string=cleaner.clean(text=self.created_at)
+        )
       return template.render()
 
   class MPTTMeta:
@@ -197,4 +248,3 @@ class ReviewForm(ExtraDataModelMixin, MPTTModel):
       unique_together = ('parent', 'candidate')
       verbose_name = _('Review')
       verbose_name_plural = _('Reviews')
-
