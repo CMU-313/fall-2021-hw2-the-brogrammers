@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from bleach import Cleaner
 from bleach.linkifier import LinkifyFilter
+from datetime import date
 
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
@@ -19,11 +20,11 @@ from mayan.apps.documents.models.document_models import Document
 from mayan.apps.documents.permissions import permission_document_view
 from mayan.apps.events.classes import EventManagerMethodAfter, EventManagerSave
 from mayan.apps.events.decorators import method_event
+
 from .events import (
     event_review_created, event_review_edited, event_review_document_added,
     event_review_document_removed
 )
-from datetime import date
 
 # Candidate model represents a candidate for a future review.
 class Candidate(models.Model):
@@ -57,13 +58,14 @@ class Candidate(models.Model):
   )
 
   
-  # set the default ordering when Candidate objects are queried
+  # set default ordering when Candidate objects are queried
   class Meta:
     ordering = ['firstName', 'lastName']
 
   def __str__(self):
         return '{} {}'.format(self.firstName, self.lastName)
-    
+  
+  # methods to average a Candidate's reviews
   def get_reviews_interview_avg(self):
     L = self.get_reviews()
     if len(L) == 0:
@@ -97,7 +99,7 @@ class Candidate(models.Model):
       return 'N/A'
     res = 0
     for r in L:
-      res += r.recLetters
+      res += r.extracurriculars
     return round(res / len(L), 2)
 
   def get_reviews_essay_avg(self):
@@ -106,7 +108,7 @@ class Candidate(models.Model):
       return 'N/A'
     res = 0
     for r in L:
-      res += r.recLetters
+      res += r.essay
     return round(res / len(L), 2)
 
   def get_reviews_count(self):

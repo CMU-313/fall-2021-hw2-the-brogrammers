@@ -10,6 +10,7 @@ from mayan.apps.common.menus import (
     menu_facet, menu_list_facet, menu_main, menu_multi_item, menu_object,
     menu_secondary
 )
+
 from .links import (
     link_review_list, link_review_create, link_candidate_create, link_review_delete,
     link_review_view, link_review_edit, link_candidate_list, link_candidate_edit, link_candidate_delete,
@@ -29,7 +30,7 @@ class ReviewsApp(MayanAppConfig):
         super().ready()
         ReviewForm = self.get_model(model_name='ReviewForm')
         Candidate = self.get_model(model_name='Candidate')
-        # attach links to menu component & add to main menu
+        # attach main links to menu component & add to main menu
         menu_reviews.bind_links(
             links=(
                 link_review_list, link_review_create, link_candidate_list, link_candidate_create
@@ -53,7 +54,7 @@ class ReviewsApp(MayanAppConfig):
                 link_candidate_review_list,
             ), sources=(Candidate,)
         )
-        # attach information to review object 
+        # attach info to review object (list_view)
         SourceColumn(
             attribute='candidate', is_identifier=False, is_sortable=True,
             source=ReviewForm
@@ -66,7 +67,7 @@ class ReviewsApp(MayanAppConfig):
             attribute='created_at', is_identifier=False, is_sortable=True,
             source=ReviewForm
         )
-        # attach information to candidate object
+        # attach info to candidate object (list_view)
         SourceColumn(
             attribute='firstName', is_identifier=False, is_sortable=True,
             source=Candidate
@@ -99,4 +100,4 @@ class ReviewsApp(MayanAppConfig):
             func=lambda context: context['object'].get_reviews_essay_avg(),
             include_label=True, label=_('Avg Essay Score'), source=Candidate
         )
-        
+ 

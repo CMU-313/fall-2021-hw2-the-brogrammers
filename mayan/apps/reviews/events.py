@@ -4,7 +4,6 @@ from mayan.apps.events.classes import EventTypeNamespace
 
 namespace = EventTypeNamespace(label=_('Reviews'), name='reviews')
 
-
 event_review_created = namespace.add_event_type(
     label=_('Review created'), name='review_created'
 )

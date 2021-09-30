@@ -11,7 +11,6 @@ from .icons import (
     icon_review_list, icon_review_create, icon_review_edit, icon_review_delete, icon_candidate_create,
     icon_review_view, icon_candidate_list, icon_candidate_edit, icon_candidate_delete
 )
-
 from .permissions import (
     permission_review_create, permission_review_view, permission_candidate_create, permission_candidate_view
 )

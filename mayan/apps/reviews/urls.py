@@ -3,7 +3,7 @@ from .. import cabinets
 from . import views
 
 # Review app routing
-urlpatterns = [
+urlpatterns_review = [
     url(
         regex=r'^reviews/$', name='review_list',
         view=views.ReviewListView.as_view()
@@ -23,7 +23,11 @@ urlpatterns = [
     url(
         regex=r'^reviews/(?P<reviewform_id>\d+)/edit/$',
         name='review_edit', view=views.ReviewEditView.as_view()
-    ),
+    )
+]
+
+# Candidate routing
+urlpatterns_candidate = [
     url(
         regex=r'^candidates/create/$', name='candidate_create',
         view=views.CandidateCreateView.as_view()
@@ -45,3 +49,7 @@ urlpatterns = [
         view=views.CandidateReviewListView.as_view()
     )
 ]
+
+urlpatterns = []
+urlpatterns.extend(urlpatterns_review)
+urlpatterns.extend(urlpatterns_candidate)
