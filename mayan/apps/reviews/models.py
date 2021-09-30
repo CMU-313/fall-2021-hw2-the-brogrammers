@@ -71,7 +71,7 @@ class Candidate(models.Model):
     res = 0
     for r in L:
       res += r.interview
-    return res / len(L)
+    return round(res / len(L), 2)
   
   def get_reviews_leadership_avg(self):
     L = self.get_reviews()
@@ -80,7 +80,7 @@ class Candidate(models.Model):
     res = 0
     for r in L:
       res += r.leadership
-    return res / len(L)
+    return round(res / len(L), 2)
 
   def get_reviews_recletter_avg(self):
     L = self.get_reviews()
@@ -89,7 +89,7 @@ class Candidate(models.Model):
     res = 0
     for r in L:
       res += r.recLetters
-    return res / len(L)
+    return round(res / len(L), 2)
 
   def get_reviews_extra_avg(self):
     L = self.get_reviews()
@@ -98,7 +98,7 @@ class Candidate(models.Model):
     res = 0
     for r in L:
       res += r.recLetters
-    return res / len(L)
+    return round(res / len(L), 2)
 
   def get_reviews_essay_avg(self):
     L = self.get_reviews()
@@ -107,7 +107,7 @@ class Candidate(models.Model):
     res = 0
     for r in L:
       res += r.recLetters
-    return res / len(L)
+    return round(res / len(L), 2)
 
   def get_reviews_count(self):
     return self.get_reviews().count()

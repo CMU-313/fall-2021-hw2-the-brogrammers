@@ -31,7 +31,7 @@ logger = logging.getLogger(name=__name__)
 
 
 class ReviewCreateView(SingleObjectCreateView):
-    fields = ('candidate', 'reviewerName', 'leadership', 'extracurriculars', 'recLetters', 'interview', 'essay')
+    fields = ('candidate', 'reviewerName', 'interview', 'leadership', 'extracurriculars', 'essay', 'recLetters')
     model = ReviewForm
     post_action_redirect = reverse_lazy(viewname='reviews:review_list')
     view_permission = permission_review_create
@@ -85,7 +85,7 @@ class ReviewDetailView(SingleObjectDetailView):
         return ReviewForm.objects.root_nodes()
 
 class ReviewEditView(SingleObjectEditView):
-    fields = ('candidate', 'reviewerName', 'leadership', 'extracurriculars', 'recLetters', 'interview', 'essay')
+    fields = ('candidate', 'reviewerName', 'interview', 'leadership', 'extracurriculars', 'essay', 'recLetters')
     model = ReviewForm
     # could add edit permission right here!
     post_action_redirect = reverse_lazy(viewname='reviews:review_list')
