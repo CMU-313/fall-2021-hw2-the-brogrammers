@@ -46,7 +46,7 @@ docker-shell: ## Launch a bash instance inside a running container. Pass the con
 	docker exec -e TERM=$(TERM) -e "COLUMNS=$(CONSOLE_COLUMNS)" -e "LINES=$(CONSOLE_LINES)" -it $(DOCKER_CONTAINER) /bin/bash
 
 docker-runtest-container: ## Run a test container.
-docker-runtest-container: docker-test-cleanup
+docker-runtest-container: docker-runtest-cleanup
 	docker run \
 	-d \
 	--name test-mayan-edms \
