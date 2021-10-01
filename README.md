@@ -92,9 +92,10 @@ along various directions. All code can be found in the `mayan/apps/reviews` fold
 consists of two main components: reviews and candidates. On the side navigation, we have an addition
 <b>reviews</b> tab that gives three options:
 
-1. <b>Create Review</b>: This page allows the user to create a new review for an established candidate
-2. <b>Create Candidate</b>: This page allows the user to add a new candidate to the database
-3. <b>All</b>: This page showcases all the different reviews for a specific candidate
+1. <b>Create Candidate</b>: This page allows the user to add a new candidate to the database 
+2. <b>Create Review</b>: This page allows the user to create a new review for an established candidate
+3. <b>All Reviews</b>: This page showcases all the different reviews for a specific candidate
+4. <b>All Candidates</b>: This page showcases all the different reviews for a specific candidate
 
 All additional tests can be found in `mayan/apps/reviews/tests`. These tests run automatically with GitHub actions. 
 
@@ -114,14 +115,18 @@ All additional tests can be found in `mayan/apps/reviews/tests`. These tests run
 <p>
 <img width="1000" heigth="1000" src="images/review_candidate.png">
 <p align="center">Figure 2: Individual Candidate Review Creation Page</p>
-<h3 align="left">All</h3>
+<h3 align="left">All Reviews</h3>
 <p>
-  Once a candidate has been created, they will be added to the <b>All</b> page where all reviews for all candidates are stored. Users can see the results for
-  each candidate by clicking on that specific review to find the candidate, reviewer, and the scores for each criteria.
+  Once a review for a candidate has been created, it is added to <b>All Reviews</b>. This page stores all the reviews, and shows the candidate, reviewer, and the creation date. We also have CRUD functionality.
 <p>
 <img width="1000" heigth="1000" src="images/show_all_candidate_reviews.png">
-<p align="center">Figure 3: View of Candidates with their Reviewer</p>
+<p align="center">Figure 3: View of All Reviews</p>
 
+<h3 align="left">All Candidates</h3>
+<p>
+  Once a candidate has been created, they will be added to the <b>All Candidate</b> page where the candidate is stored with the total reviews, and the average for each score. Any candidate without any reviews will have N/A for the average scores.
+<p>
 <img width="1000" heigth="1000" src="images/show_candidate_review.png">
 <p align="center">Figure 4: View of Individual Candidate</p>
-
+<img width="1000" heigth="1000" src="images/show_all_candidates.png">
+<p align="center">Figure 5: View of All Candidates</p>
